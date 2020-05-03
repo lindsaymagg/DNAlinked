@@ -1,5 +1,5 @@
 # DNA LinkStrand
-CS 201 Fall 2018
+CS 201, October 2018
 
 This was HW #4 in my CS201 class.
 Instructions: https://docs.google.com/document/d/1UwIde2SviXlZN7DnhTJYHwosUkpIqMlACqglTR6vbVM/edit?usp=sharing
