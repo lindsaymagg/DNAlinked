@@ -1,0 +1,129 @@
+Lindsay Maggioncalda
+lnm22
+Jeremy Yi
+jjy9
+
+In answering these questions you should refer to the timings
+you generated from the DNABenchmark program on your machine. 
+Use these timings to answer three questions.
+
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time	appends
+-----
+StringStrand:	            256	      4,800,471	0.833	1290
+StringStrand:	            512	      4,965,591	0.838	1290
+StringStrand:	          1,024	      5,295,831	0.870	1290
+StringStrand:	          2,048	      5,956,311	0.993	1290
+StringStrand:	          4,096	      7,277,271	1.217	1290
+StringStrand:	          8,192	      9,919,191	1.670	1290
+StringStrand:	         16,384	     15,203,031	2.649	1290
+StringStrand:	         32,768	     25,770,711	4.483	1290
+StringStrand:	         65,536	     46,906,071	8.470	1290
+StringStrand:	        131,072	     89,176,791	15.839	1290
+StringStrand:	        262,144	    173,718,231	28.658	1290
+StringStrand:	        524,288	    342,801,111	53.523	1290
+
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time	appends
+-----
+StringBuilderStrand:	            256	      4,800,471	0.033	1290
+StringBuilderStrand:	            512	      4,965,591	0.025	1290
+StringBuilderStrand:	          1,024	      5,295,831	0.009	1290
+StringBuilderStrand:	          2,048	      5,956,311	0.011	1290
+StringBuilderStrand:	          4,096	      7,277,271	0.011	1290
+StringBuilderStrand:	          8,192	      9,919,191	0.012	1290
+StringBuilderStrand:	         16,384	     15,203,031	0.015	1290
+StringBuilderStrand:	         32,768	     25,770,711	0.024	1290
+StringBuilderStrand:	         65,536	     46,906,071	0.052	1290
+StringBuilderStrand:	        131,072	     89,176,791	0.103	1290
+StringBuilderStrand:	        262,144	    173,718,231	0.238	1290
+StringBuilderStrand:	        524,288	    342,801,111	0.512	1290
+
+dna length = 4,639,221
+cutting at enzyme gaattc
+-----
+Class	                splicee	      recomb	time	appends
+-----
+LinkStrand:	            256	      4,800,471	0.028	1290
+LinkStrand:	            512	      4,965,591	0.023	1290
+LinkStrand:	          1,024	      5,295,831	0.004	1290
+LinkStrand:	          2,048	      5,956,311	0.007	1290
+LinkStrand:	          4,096	      7,277,271	0.006	1290
+LinkStrand:	          8,192	      9,919,191	0.006	1290
+LinkStrand:	         16,384	     15,203,031	0.006	1290
+LinkStrand:	         32,768	     25,770,711	0.008	1290
+LinkStrand:	         65,536	     46,906,071	0.005	1290
+LinkStrand:	        131,072	     89,176,791	0.005	1290
+LinkStrand:	        262,144	    173,718,231	0.006	1290
+LinkStrand:	        524,288	    342,801,111	0.007	1290
+LinkStrand:	      1,048,576	    680,966,871	0.008	1290
+LinkStrand:	      2,097,152	  1,357,298,391	0.006	1290
+LinkStrand:	      4,194,304	  2,709,961,431	0.009	1290
+LinkStrand:	      8,388,608	  5,415,287,511	0.007	1290
+LinkStrand:	     16,777,216	 10,825,939,671	0.007	1290
+LinkStrand:	     33,554,432	 21,647,243,991	0.009	1290
+LinkStrand:	     67,108,864	 43,289,852,631	0.009	1290
+LinkStrand:	    134,217,728	 86,575,069,911	0.008	1290
+LinkStrand:	    268,435,456	173,145,504,471	0.010	1290
+LinkStrand:	    536,870,912	346,286,373,591	0.006	1290
+
+
+Question 1: are the benchmark timings for StringStrand 
+consistent with the explanation below that the time to
+execute cutAndSplice is O(b2S)? 
+
+Note that the value of b is half the number of calls to 
+append since each cut (except the first) is modeled by two
+calls of append in the method cutAndSplice -- see the code.
+This means that b2 will be constant in the benchmark, 
+but S will vary. 
+
+1. Because we are using the same base strand for our StringStrand test, the number of appends
+will be the same. Therefore, b2 is constant and the increase to S (length of the splicee) is solely 
+responsible for the increase in the runtime. For O(b2S) while keeping b2 constant, we would expect runtime to 
+increase linearly as S increases. This was proven with the results of StringStrand. For example, when
+the size of the splicee doubled from 262,144 to 524,288, the runtime doubled from 28.658 to 
+53.523 (53.523 / 28.658 = 1.87 = ~2). When the splicee size is small (e.g. 256, 512), the impact of
+the size of the splicee is insignificant. 
+
+
+Question 2: are the benchmark timings for StringBuilderStrand
+consistent with the explanation below that the time to execute
+cutAndSplice is O(bS)? 
+
+Note that the value of b is half the number of calls to append
+since each cut (except the first) is modeled by two calls of
+append in the method cutAndSplice -- see the code. This means
+that b will be constant in the benchmark, but S will vary. 
+
+2. Similarly to the StringStrand test, the benchmark will test the same base strand so the number
+of appends will be the same. However, instead of O(b2S) the O-notation is now O(bS). This change is 
+reflected in the decrease in runtime when comparing the runtime of a splicee of size 256 for the 
+same data file. In StringStrand, the runtime is 0.833 whereas in StringBuilderStrand the runtime is 0.033. 
+O(bS) notation is proven with the results of StringBuilderStrand. Since we are keeping b constant, 
+S is solely responsible for changes in the runtime. We would expect runtime to increase linearly as S 
+increases. For example, when we double the size of the splicee from 262,144 to 524,288, the runtime doubled
+from 0.238 to 0.512 (.512 / .238 = 2.15 = ~2). When the splicee size is small (e.g. 256, 512), the impact
+of the size of the splicee is insignificant.
+
+Question 3: Explain why the time for LinkStrand does not
+change much at all over all the runs in the benchmark program.
+Explain why you think memory is exhausted at the specific 
+strand size you see in your timings -- as compared to exhaustion
+for String and StringBuilder.
+
+3. LinkStrand uses nodes to store a pointer to a splicee. Compared to the StringStrand and StringBuilderStrand,
+this means that LinkStrand does not have to continuously concatenate A+B strings or append B characters. 
+LinkStrand only has to allocate memory for the splicee once. The nodes pointing to the splicee can 
+point to the same splicee. It makes sense that the LinkStrand exhausted its memory at the specific
+strand size of 536,870,912. StringStrand and StringBuilderStrand have to allocate memory for the 
+splicee each time the appends method is called. Both StringStrand and StringBuilderStrand exhausted memory
+at a strand of size 524,288. 524,288 * 1290 is a total of 677,105,520 memory. The LinkStrand test allocates
+536,870,912 memory for the single splicee that it has to allocate memory for. Allocating memory sufficient for
+double the size of a 536,870,912 size strand (2 * 536,870,912 = 1,073,741,824) is more than the 677,105,520 amount of memory
+allocated to StringStrand and StringBuilderStrand when the memory was exhausted. The 536,870,912 size strand was able to 
+complete successfully because it is under the 677,105,520 memory that was successfully allocated for StringStrand and 
+StringBuilderStrand. 
